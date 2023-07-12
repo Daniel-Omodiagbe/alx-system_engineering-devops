@@ -1,2 +1,2 @@
 #!/bin/bash
-awk 'NR%3'
+ls | cat -n | grep '/^\d*[13579]$/g"

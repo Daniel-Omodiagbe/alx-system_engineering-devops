@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#configuring Nginx to perform permanent redirection
+
+sudo apt-get update
+sudo apt-get install -y nginx
+echo "Hello World!" > /var/www/html/index.html
+echo "server {
+    listen 80;
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html;
+    location /redirect_me {
+        return 301 https://twitter.com/OmoDan5;
+    }
+}" > /etc/nginx/sites-available/default
+sudo service nginx restart

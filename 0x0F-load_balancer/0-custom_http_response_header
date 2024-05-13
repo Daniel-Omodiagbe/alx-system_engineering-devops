@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#configuring Nginx to perform permanent redirection
+#custom 404 page
+
+sudo apt-get update
+sudo apt-get install -y nginx
+echo "Hello World!" > /var/www/html/index.html
+echo "Ceci n'est pas une page" > /usr/share/nginx/html/custom_404.html
+echo "server {
+    listen 80;
+    listen [::]:80 default_server;
+    add_header X-Served-By $HOSTNAME;
+    root   /etc/nginx/html;
+    index  index.html;
+    location /redirect_me {
+        return 301 https://twitter.com/OmoDan5;
+    }
+    error_page 404 /custom_404.html;
+    location /custom_404.html {
+        root /usr/share/nginx/html;
+    }
+}" > /etc/nginx/sites-available/default
+sudo service nginx restart

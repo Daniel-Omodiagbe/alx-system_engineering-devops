@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+#ufw firewall configuration on server
+
+sudo apt-get -y update
+sudo apt-get -y install ufw
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow ssh
+sudo ufw allow https
+sudo ufw allow http
+iptables -t nat -A OUTPUT -o lo -p tcp --dport 8080 -j REDIRECT --to-port 80
+sudo ufw enable
+sudo apt-get -y install iptables
+sudo iptables -t nat -A PREROUTING -p tcp --dport 8080 -j REDIRECT --to-port 80
+sudo apt-get -y install iptables-persistent
+sudo netfilter persistent save
